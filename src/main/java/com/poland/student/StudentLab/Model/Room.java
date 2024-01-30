@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Room")
 @Getter
@@ -32,4 +35,9 @@ public class Room {
     @Column(name = "is_washing_machine_include")
     private boolean isWashingMachineInclude;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "room")
+    private List<Image> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "room")
+    private List<Booking> bookings;
 }
