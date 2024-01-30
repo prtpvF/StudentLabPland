@@ -1,6 +1,5 @@
 package com.poland.student.StudentLab.Model;
 
-import com.poland.student.StudentLab.util.UniqueUsername;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -33,7 +32,6 @@ public class Person {
 
     @Column(name = "username", nullable = false, unique = true)
     @NotEmpty
-
     private String username;
 
     @Column(name = "age", nullable = false)

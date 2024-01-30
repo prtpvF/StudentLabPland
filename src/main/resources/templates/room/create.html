@@ -16,6 +16,15 @@
         <input type="text" th:field="*{typeOfBed}" id="typeOfBed" >
         <span th:if="${#fields.hasErrors('typeOfBed')}" th:errors="*{typeOfBed}" style="color: red"></span>
 
+        <label for="name">Name:</label>
+        <input type="text" th:field="*{name}" id="name" >
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red"></span>
+
+        <label for="price">Price:</label>
+        <input type="number" th:field="*{price}" id="price" >
+        <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red"></span>
+
+
 
 
         <label for="nutrition">Nutrition:</label>

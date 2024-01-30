@@ -26,11 +26,10 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/auth/login","/auth/registration","/error","/css/*",
-                                "/org/login", "/about",
-                                "/", "/tour/all",
-                                "/offer", "/all",
-                                "/image/**", "/js/**",
-                                "/tour/info/**").permitAll()
+                                "/room/all", "/room/info/**",
+                                "/",
+                                "/images/**", "/js/**").permitAll()
+//                        .requestMatchers("/room/create", "/room/delete", "/room/update", "booking/all", "booking/info/**").hasRole("ADMIN")
                         .anyRequest().authenticated()).formLogin(form->form.loginPage("/auth/login")
                         .loginProcessingUrl("/process_login")
                         .failureForwardUrl("/auth/login?error")

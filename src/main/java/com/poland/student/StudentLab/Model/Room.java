@@ -1,6 +1,9 @@
 package com.poland.student.StudentLab.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +23,11 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
+    @Column(name = "name")
+    @NotEmpty
+    private String name;
+
     @Column(name = "type_of_bed")
     private String typeOfBed;
     @Column(name = "parking")
@@ -34,6 +42,10 @@ public class Room {
     private String nutrition;
     @Column(name = "is_washing_machine_include")
     private boolean washingMachine;
+
+    @Column(name = "price")
+    @NotNull
+    private double price;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "room")
     private List<Image> images = new ArrayList<>();

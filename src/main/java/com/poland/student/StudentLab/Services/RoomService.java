@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -67,5 +68,9 @@ public class RoomService {
         }
         updatedRoom.setId(roomToBeUpdated.get().getId());
         updatedRoom.setBookings(roomToBeUpdated.get().getBookings());
+    }
+
+    public List<Room> findAll(){
+        return roomRepo.findAll();
     }
 }
