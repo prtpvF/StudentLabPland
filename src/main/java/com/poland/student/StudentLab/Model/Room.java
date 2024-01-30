@@ -40,4 +40,10 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
+    private Long previewImageId;
+
+    public void addImage(Image image){
+        image.setRoom(this);
+        images.add(image);
+    }
 }
