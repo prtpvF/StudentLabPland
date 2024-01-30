@@ -1,26 +1,26 @@
 package com.poland.student.StudentLab.Controllers;
 
 import com.poland.student.StudentLab.Model.Person;
+import com.poland.student.StudentLab.Repo.PersonRepo;
 import com.poland.student.StudentLab.Services.PersonService;
 import jakarta.validation.Valid;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
     private final PersonService personService;
+    private final PersonRepo personRepo;
 
     @Autowired
-    public AuthController(PersonService personService) {
+    public AuthController(PersonService personService, PersonRepo personRepo) {
         this.personService = personService;
+        this.personRepo = personRepo;
     }
 
     @GetMapping("/registration")
@@ -31,6 +31,10 @@ public class AuthController {
     @PostMapping("/registration")
     public String registration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
+            return "/auth/registration";
+        }
+        if (personRepo.existsByUsername(person.getUsername())) {
+            bindingResult.rejectValue("username", "error.username", "Username is already taken");
             return "/auth/registration";
         }
         personService.registration(person);

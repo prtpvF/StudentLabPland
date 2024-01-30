@@ -33,7 +33,7 @@ public class Person {
 
     @Column(name = "username", nullable = false, unique = true)
     @NotEmpty
-    @UniqueUsername
+
     private String username;
 
     @Column(name = "age", nullable = false)

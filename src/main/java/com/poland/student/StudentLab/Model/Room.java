@@ -11,9 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "Room")
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Room {
     @Id
@@ -22,18 +22,18 @@ public class Room {
     private int id;
     @Column(name = "type_of_bed")
     private String typeOfBed;
-    @Column(name = "is_parking_include")
-    private boolean isParkingInclude;
-    @Column(name = "is_wifi_include")
-    private boolean isWiFiInclude;
-    @Column(name = "is_bathroom_separated")
-    private boolean isBathroomSeparated;
-    @Column(name = "is_kitchen_separated")
-    private boolean isKitchenSeparated;
+    @Column(name = "parking")
+    private boolean parking;
+    @Column(name = "wifie")
+    private boolean wifi;
+    @Column(name = "bathroom")
+    private boolean bathroom;
+    @Column(name = "kitchen")
+    private boolean kitchen;
     @Column(name = "nutrition")
     private String nutrition;
     @Column(name = "is_washing_machine_include")
-    private boolean isWashingMachineInclude;
+    private boolean washingMachine;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "room")
     private List<Image> images = new ArrayList<>();
@@ -42,8 +42,9 @@ public class Room {
     private List<Booking> bookings;
     private Long previewImageId;
 
-    public void addImage(Image image){
+    public void addImage(Image image) {
         image.setRoom(this);
         images.add(image);
     }
+
 }

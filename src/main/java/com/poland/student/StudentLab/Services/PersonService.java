@@ -1,5 +1,6 @@
 package com.poland.student.StudentLab.Services;
 
+import com.poland.student.StudentLab.Exception.PersonAlreadyExists;
 import com.poland.student.StudentLab.Exception.PersonNotFoundException;
 import com.poland.student.StudentLab.Model.Person;
 import com.poland.student.StudentLab.Repo.PersonRepo;
@@ -29,10 +30,11 @@ public class PersonService implements UserDetailsService {
         return new PersonDetails(person.get());
     }
 
-    public void registration(Person person){
+    public void registration(Person person)  {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
-        person.setRole("ROLE_USER");
-        personRepo.save(person);
+            person.setRole("ROLE_USER");
+            personRepo.save(person);
+
     }
 
     public Person getPerson(int id) throws PersonNotFoundException {
