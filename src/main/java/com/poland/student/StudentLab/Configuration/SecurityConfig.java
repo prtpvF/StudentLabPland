@@ -29,11 +29,13 @@ public class SecurityConfig {
                                 "/room/all", "/room/info/**",
                                 "/",
                                 "/images/**", "/js/**").permitAll()
-//                        .requestMatchers("/room/create", "/room/delete", "/room/update", "booking/all", "booking/info/**").hasRole("ADMIN")
+               //         .requestMatchers("/room/create", "/room/delete", "/room/update", "booking/all").hasRole("ADMIN")
                         .anyRequest().authenticated()).formLogin(form->form.loginPage("/auth/login")
                         .loginProcessingUrl("/process_login")
                         .failureForwardUrl("/auth/login?error")
+
                         .defaultSuccessUrl("/home", true).permitAll());
+       http.logout((logout)->logout.logoutUrl("/logout").logoutSuccessUrl("/auth/login"));
         return http.build();
     }
     @Bean

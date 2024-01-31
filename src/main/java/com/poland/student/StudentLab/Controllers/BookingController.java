@@ -78,13 +78,21 @@ public class BookingController {
     }
 
     @GetMapping("/all/person/bookings")
-    public String allBookings( Model model){
+    public String allPersonBookings( Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         Person person = personDetails.getPerson();
         List<Booking> bookingsList = personService.allPersonBookings(person);
         model.addAttribute("bookingsList", bookingsList);
         model.addAttribute("userRole", person.getRole());
+        return "/booking/allPerson";
+    }
+
+    @GetMapping("/all/bookings")
+    public String allBookings(Model model){
+        List<Booking> bookingList = bookingService.allBookings();
+        model.addAttribute("bookingList", bookingList);
         return "/booking/all";
     }
+
 }

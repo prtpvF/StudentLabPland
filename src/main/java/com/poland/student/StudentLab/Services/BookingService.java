@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -75,6 +76,9 @@ public class BookingService{
             throw new RoomIsAlreadyTakenException("you cant booking this room on this date cause it's already taken");
         }
         bookingRepo.save(updatedBooking);
+    }
+    public List<Booking> allBookings(){
+       return  bookingRepo.findAll();
     }
 
 

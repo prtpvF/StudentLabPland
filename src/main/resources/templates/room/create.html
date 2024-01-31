@@ -8,6 +8,7 @@
     <title>Create</title>
 </head>
 <body>
+<div th:replace="header :: header"></div>
 <h3>Create new room</h3>
 <div class="create-container">
     <form th:action="@{/room/create}" method="post" enctype="multipart/form-data" th:object="${room}">

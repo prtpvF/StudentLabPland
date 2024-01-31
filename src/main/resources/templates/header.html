@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<header>
+
+
+  <nav>
+    <ul>
+      <li><a th:href="@{/home}" class="link-header">Home</a></li>
+      <li><a th:href="@{/room/all}" class="link-header">All roms</a></li>
+      <li><a th:href="@{/auth/login}" class="link-header">Sign in</a></li>
+      <li><a th:href="@{/auth/registration}" class="link-header">Registration</a></li>
+
+    </ul>
+  </nav>
+
+  <div th:if="${userRole == 'ROLE_USER'}">
+
+    <form th:action="@{/logout}" method="post" style="display: inline;"class="logout-form">
+      <button type="submit"  class="exite-button">Sign out</button>
+    </form>
+
+    <a th:href="@{/booking/all/person/bookings}" class="link-header"> my bookings</a>
+  </div>
+
+  <div th:if="${userRole == 'ROLE_ADMIN'}">
+    <form th:action="@{/logout}" method="post" style="display: inline;"class="logout-form">
+      <button type="submit"  class="exite-button">Выйти</button>
+    </form>
+  </div>
+
+</header>
+</body>
+</html>

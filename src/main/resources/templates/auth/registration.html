@@ -9,7 +9,7 @@
     <title>Registration</title>
 </head>
 <body>
-
+<div th:replace="header :: header"></div>
 <main id="registration">
     <section>
         <h2>Fill in the form</h2>
@@ -42,8 +42,8 @@
                 <span th:if="${#fields.hasErrors('contactInformation')}" th:errors="*{contactInformation}" style="color: red"></span>
 
 
-                <button class="register-button" type="submit" style="background-color: #154484">Зарегистрироваться</button>
-                <a th:href="@{/auth/login}"  style=" color: black; text-decoration: none; margin-left: 2%">Войти</a>
+                <button class="register-button" type="submit" style="background-color: #154484">Registration</button>
+                <a th:href="@{/auth/login}"  style=" color: black; text-decoration: none; margin-left: 2%">Sign in</a>
 
             </form></div>
     </section>

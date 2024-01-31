@@ -59,6 +59,10 @@ public class PersonService implements UserDetailsService {
         Optional<Person> personToBeUpdated = personRepo.findById(id);
         updatedPerson.setBookings(personToBeUpdated.get().getBookings());
         updatedPerson.setId(personToBeUpdated.get().getId());
+
+        updatedPerson.setPassword(personToBeUpdated.get().getPassword());
+
+
         personRepo.save(updatedPerson);
     }
 
@@ -68,7 +72,6 @@ public class PersonService implements UserDetailsService {
         person.setBookings(personToUpdatedRole.get().getBookings());
         person.setRole("ROLE_ADMIN");
         personRepo.save(person);
-
     }
 
 }
