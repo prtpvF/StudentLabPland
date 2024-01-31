@@ -13,6 +13,7 @@ import com.poland.student.StudentLab.Services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -93,6 +94,12 @@ public class BookingController {
         List<Booking> bookingList = bookingService.allBookings();
         model.addAttribute("bookingList", bookingList);
         return "/booking/all";
+    }
+    @GetMapping("/{id}/updatePage")
+    public String updateBooking(@PathVariable("id") int id, Model model){
+        Booking booking = bookingService.getInfo(id);
+        model.addAttribute("booking", booking);
+        return "/booking/updatePage";
     }
 
 }

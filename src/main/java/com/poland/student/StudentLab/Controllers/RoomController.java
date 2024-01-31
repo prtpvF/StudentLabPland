@@ -7,6 +7,8 @@ import com.poland.student.StudentLab.Model.Room;
 import com.poland.student.StudentLab.Security.PersonDetails;
 import com.poland.student.StudentLab.Services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,11 +28,13 @@ public class RoomController {
         this.roomService = roomService;
     }
     @GetMapping("/create/page")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String createRoomPage(@ModelAttribute("room") Room room){
         return "/room/create";
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String createRoom(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2,
                                 @RequestParam("file3") MultipartFile file3, Room room) throws IOException {
         roomService.saveRoom(room, file1, file2, file3);
@@ -61,6 +65,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteRoom(@PathVariable("id") int id){
         roomService.deleteRoom(id);
         return "redirect: /room/all";

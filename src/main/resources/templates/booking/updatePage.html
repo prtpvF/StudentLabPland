@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <script th:src="@{/js/index.js}"></script>
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<main id="registration">
+    <section>
+        <h2>Update booking</h2>
+
+        <div class="sig-in-container" style="margin-bottom: 10%; margin-top:10%">
+            <form th:method="POST" th:action="@{/booking/{id}/update(id=${booking.getId()})}" th:object="${booking}">
+                <label for="date">Date:</label>
+                <input type="date" th:field="*{date}" id="date" >
+                <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}" style="color: red"></span>
+                <input type="submit" value="Update!">
+            </form>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

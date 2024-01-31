@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>403 Forbidden</title>
+</head>
+<body>
+<h1>403 Forbidden</h1>
+<p>Sorry, you don't have permission to access this page.</p>
+<p>Please contact the administrator if you believe this is an error.</p>
+<form th:action="@{/logout}" method="post" style="display: inline;"class="logout-form">
+  <button type="submit"  class="exite-button">Log out</button>
+</form>
+<p>Why did the chicken cross the road? To get to the other side of the 403 error page!</p>
+</body>
+</html>

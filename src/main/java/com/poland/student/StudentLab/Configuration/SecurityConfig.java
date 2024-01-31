@@ -26,10 +26,9 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/auth/login","/auth/registration","/error","/css/*",
-                                "/room/all", "/room/info/**",
-                                "/",
+                                "/room/all", "/room/**",
+                                "/home",
                                 "/images/**", "/js/**").permitAll()
-               //         .requestMatchers("/room/create", "/room/delete", "/room/update", "booking/all").hasRole("ADMIN")
                         .anyRequest().authenticated()).formLogin(form->form.loginPage("/auth/login")
                         .loginProcessingUrl("/process_login")
                         .failureForwardUrl("/auth/login?error")
