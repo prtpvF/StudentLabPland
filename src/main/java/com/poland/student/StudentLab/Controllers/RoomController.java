@@ -1,6 +1,7 @@
 package com.poland.student.StudentLab.Controllers;
 
 import com.poland.student.StudentLab.Exception.RoomNotFoundException;
+import com.poland.student.StudentLab.Model.Booking;
 import com.poland.student.StudentLab.Model.Person;
 import com.poland.student.StudentLab.Model.Room;
 import com.poland.student.StudentLab.Security.PersonDetails;
@@ -28,8 +29,9 @@ public class RoomController {
     public String createRoomPage(@ModelAttribute("room") Room room){
         return "/room/create";
     }
+
     @PostMapping("/create")
-    public String createProduct(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2,
+    public String createRoom(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2,
                                 @RequestParam("file3") MultipartFile file3, Room room) throws IOException {
         roomService.saveRoom(room, file1, file2, file3);
         return "redirect:/room/all";
@@ -56,7 +58,13 @@ public class RoomController {
         model.addAttribute("room", room);
         model.addAttribute("person", guest);
         return "room/info";
-
-
     }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteRoom(@PathVariable("id") int id){
+        roomService.deleteRoom(id);
+        return "redirect: /room/all";
+    }
+
+
 }

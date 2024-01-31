@@ -27,13 +27,12 @@
           <p class="card-text">Washing Machine: <span th:text="${room.isWashingMachine()} ? '✅' : '❌'"></span></p>
 
 
-          <a th:href="@{/booking/{id}(id=${room.getId()})}" class="btn btn-primary" style="background-color: #154484; margin-left:30%" >Want to booking?</a>
 
-
-
-          <form th:action="@{/room/delete/{id}(id=${room.getId()})}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            <button type="submit" class="btn" th:if="${userRole == 'ROLE_ADMIN'}">Удалить</button>
+          <form th:action="@{/booking/create/{id}/{id2}(id=${room.getId()},id2=${person.getId()})}" method="post" th:object="${booking}">
+            <input type="hidden" name="_method" value="POST" />
+            <label for="date">Date:</label>
+            <input type="datetime-local" th:field="*{date}" id="date" >
+            <button type="submit" class="btn" th:if="${userRole == 'ROLE_USER'}">Booking!</button>
           </form>
         </div>
       </div>

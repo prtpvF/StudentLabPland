@@ -25,11 +25,9 @@ public class BookingService{
     private final RoomRepo roomRepo;
     private final BookingRepo bookingRepo;
 
-    public void create( int roomId, LocalDateTime timeOfBooking) throws PersonNotFoundException, RoomNotFoundException, RoomIsAlreadyTakenException {
+    public void create( int roomId, int personId, LocalDateTime timeOfBooking) throws PersonNotFoundException, RoomNotFoundException, RoomIsAlreadyTakenException {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        Person person = personDetails.getPerson();
+       Optional<Person> person = personRepo.findById(personId);
 
         Optional<Room> room = roomRepo.findById(roomId);
         if (room.isEmpty())
@@ -40,7 +38,7 @@ public class BookingService{
         } else {
             Booking booking = new Booking();
             booking.setRoom(room.get());
-            booking.setPerson(person);
+            booking.setPerson(person.get());
             booking.setDate(timeOfBooking);
             bookingRepo.save(booking);
         }
