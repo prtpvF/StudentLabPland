@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "Booking")
@@ -25,5 +26,5 @@ public class Booking {
     private Room room;
 
     @Column(name = "date", nullable = false)
-    private LocalDateTime date;
+    private Date date;
 }

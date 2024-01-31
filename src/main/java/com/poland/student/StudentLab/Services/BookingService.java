@@ -11,11 +11,16 @@ import com.poland.student.StudentLab.Repo.PersonRepo;
 import com.poland.student.StudentLab.Repo.RoomRepo;
 import com.poland.student.StudentLab.Security.PersonDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -25,7 +30,9 @@ public class BookingService{
     private final RoomRepo roomRepo;
     private final BookingRepo bookingRepo;
 
-    public void create( int roomId, int personId, LocalDateTime timeOfBooking) throws PersonNotFoundException, RoomNotFoundException, RoomIsAlreadyTakenException {
+
+
+    public void create( int roomId, int personId, Date timeOfBooking) throws PersonNotFoundException, RoomNotFoundException, RoomIsAlreadyTakenException {
 
        Optional<Person> person = personRepo.findById(personId);
 
