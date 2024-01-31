@@ -8,6 +8,7 @@ import com.poland.student.StudentLab.Model.Person;
 import com.poland.student.StudentLab.Model.Room;
 import com.poland.student.StudentLab.Security.PersonDetails;
 import com.poland.student.StudentLab.Services.BookingService;
+import com.poland.student.StudentLab.Services.PersonService;
 import com.poland.student.StudentLab.Services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -20,19 +21,21 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/booking")
 public class BookingController {
     private final BookingService bookingService;
     private final RoomService roomService;
+    private final PersonService personService;
 
     @Autowired
-    public BookingController(BookingService bookingService, RoomService roomService) {
+    public BookingController(BookingService bookingService, RoomService roomService, PersonService personService) {
         this.bookingService = bookingService;
         this.roomService = roomService;
+        this.personService = personService;
     }
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -50,7 +53,8 @@ public class BookingController {
             model.addAttribute("errorMessage", e.getMessage());
             return "/error-page";
         }
-        return "redirect:/room/all";
+        model.addAttribute("successMessage", "room successfully booked!");
+        return "/success-page";
     }
 
     @GetMapping("/{id}")
@@ -65,5 +69,22 @@ public class BookingController {
         model.addAttribute("person", person);
         model.addAttribute("booking", booking);
         return "/booking/page";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteBooking(@PathVariable("id") int id){
+        bookingService.deleteBooking(id);
+        return "redirect:/room/all";
+    }
+
+    @GetMapping("/all/person/bookings")
+    public String allBookings( Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        Person person = personDetails.getPerson();
+        List<Booking> bookingsList = personService.allPersonBookings(person);
+        model.addAttribute("bookingsList", bookingsList);
+        model.addAttribute("userRole", person.getRole());
+        return "/booking/all";
     }
 }

@@ -49,7 +49,7 @@ public class Person {
     @NotEmpty
     private String password;
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     private List<Booking> bookings;
 
 }

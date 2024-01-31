@@ -2,6 +2,7 @@ package com.poland.student.StudentLab.Services;
 
 import com.poland.student.StudentLab.Exception.PersonAlreadyExists;
 import com.poland.student.StudentLab.Exception.PersonNotFoundException;
+import com.poland.student.StudentLab.Model.Booking;
 import com.poland.student.StudentLab.Model.Person;
 import com.poland.student.StudentLab.Repo.PersonRepo;
 import com.poland.student.StudentLab.Security.PersonDetails;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,6 +37,10 @@ public class PersonService implements UserDetailsService {
             person.setRole("ROLE_USER");
             personRepo.save(person);
 
+    }
+
+    public List<Booking> allPersonBookings(Person person){
+        return person.getBookings();
     }
 
     public Person getPerson(int id) throws PersonNotFoundException {

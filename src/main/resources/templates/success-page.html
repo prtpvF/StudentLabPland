@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Error</title>
+</head>
+<body>
+<div th:if="${successMessage}" class="alert alert-danger" role="alert">
+  <p th:text="${successMessage}"></p>
+  <a th:src="@{/room/all}">Back to all rooms page </a>
+</div>
+</body>
+</html>
