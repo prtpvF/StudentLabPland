@@ -18,13 +18,20 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "person_id", nullable = false)
+
     private Person person;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
     @Column(name = "date", nullable = false)
     private Date date;
+
+    @PreRemove
+    private void removeBooking() {
+        person.getBookings().remove(this);
+        room.getBookings().remove(this);
+    }
 }

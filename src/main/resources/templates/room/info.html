@@ -53,7 +53,7 @@
           <p class="card-text">Washing Machine: <span th:text="${room.isWashingMachine()} ? '✅' : '❌'"></span></p>
 
 
-          <a th:href="@{/booking/{id}(id=${room.getId()})}" class="btn btn-primary" style="background-color: #154484; margin-left:30%" >Want to booking?</a>
+          <a th:href="@{/booking/{id}(id=${room.getId()})}" class="btn btn-primary" style="background-color: #154484; margin-left:30%" th:if="${userRole == 'ROLE_USER'}">Want to booking?</a>
 
 
 

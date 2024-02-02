@@ -25,9 +25,6 @@
         <input type="number" th:field="*{price}" id="price" >
         <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red"></span>
 
-
-
-
         <label for="nutrition">Nutrition:</label>
         <input type="text" th:field="*{nutrition}" id="nutrition" >
         <span th:if="${#fields.hasErrors('nutrition')}" th:errors="*{nutrition}" style="color: red"></span>

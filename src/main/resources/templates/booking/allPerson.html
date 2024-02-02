@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:margin-left="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
   <link rel="stylesheet" th:href="@{/css/style.css}" />
 
@@ -24,7 +24,7 @@
           <h5 class="card-title">Name:<a th:text="${booking.getRoom().getName()}"></a></h5>
           <p class="card-text">Price:<a th:text="${booking.getRoom().getPrice()}"></a></p>
           <p class="card-text">Date: <a th:text="${booking.getDate()}"></a></p>
-
+          <a th:href="@{/booking/{id}/updatePage(id=${booking.getId()})}">Update</a>
           <form th:action="@{/booking/delete/{id}(id=${booking.getId()})}" method="post">
             <input type="hidden" name="_method" value="DELETE" />
             <button type="submit" class="btn" th:if="${userRole == 'ROLE_USER'}">Delete booking!</button>

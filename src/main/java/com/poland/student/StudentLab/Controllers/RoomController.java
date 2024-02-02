@@ -6,13 +6,16 @@ import com.poland.student.StudentLab.Model.Person;
 import com.poland.student.StudentLab.Model.Room;
 import com.poland.student.StudentLab.Security.PersonDetails;
 import com.poland.student.StudentLab.Services.RoomService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,12 +39,16 @@ public class RoomController {
     @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String createRoom(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2,
-                                @RequestParam("file3") MultipartFile file3, Room room) throws IOException {
+                             @RequestParam("file3") MultipartFile file3, @Valid Room room, BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasErrors()){
+            return "redirect:/room/create/page";
+        }
         roomService.saveRoom(room, file1, file2, file3);
         return "redirect:/room/all";
     }
 
     @GetMapping("/all")
+    @CacheEvict
     public String allRoom(@ModelAttribute("room") Room room, Model model){
         model.addAttribute("rooms", roomService.findAll());
         model.addAttribute("imgs", room.getImages());
@@ -51,7 +58,7 @@ public class RoomController {
         return "room/all";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/page/{id}")
     public String getInfo(@PathVariable("id") int id, Model model) throws RoomNotFoundException {
         Room room = roomService.findRoom(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -64,11 +71,12 @@ public class RoomController {
         return "room/info";
     }
 
+    //test passed
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteRoom(@PathVariable("id") int id){
         roomService.deleteRoom(id);
-        return "redirect: /room/all";
+        return "redirect:/room/all";
     }
 
 

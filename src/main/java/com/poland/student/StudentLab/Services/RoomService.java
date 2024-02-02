@@ -1,8 +1,10 @@
 package com.poland.student.StudentLab.Services;
 
 import com.poland.student.StudentLab.Exception.RoomNotFoundException;
+import com.poland.student.StudentLab.Model.Booking;
 import com.poland.student.StudentLab.Model.Image;
 import com.poland.student.StudentLab.Model.Room;
+import com.poland.student.StudentLab.Repo.BookingRepo;
 import com.poland.student.StudentLab.Repo.RoomRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RoomService {
     private final RoomRepo roomRepo;
+    private final BookingRepo bookingRepo;
 
     public void saveRoom(Room room, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
         Image image1;
@@ -50,6 +53,9 @@ public class RoomService {
     }
 
     public void deleteRoom(int id){
+        Optional<Room> room = roomRepo.findById(id);
+        List<Booking> bookings = bookingRepo.findAllByRoom(room.get());
+        bookings.forEach(booking->bookingRepo.delete(booking));
         roomRepo.deleteById(id);
     }
 

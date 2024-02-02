@@ -1,5 +1,6 @@
 package com.poland.student.StudentLab.Controllers;
 
+import com.poland.student.StudentLab.Exception.InvalidDate;
 import com.poland.student.StudentLab.Exception.PersonNotFoundException;
 import com.poland.student.StudentLab.Exception.RoomIsAlreadyTakenException;
 import com.poland.student.StudentLab.Exception.RoomNotFoundException;
@@ -10,8 +11,11 @@ import com.poland.student.StudentLab.Security.PersonDetails;
 import com.poland.student.StudentLab.Services.BookingService;
 import com.poland.student.StudentLab.Services.PersonService;
 import com.poland.student.StudentLab.Services.RoomService;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -24,6 +28,8 @@ import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+//Now in testing
 
 @Controller
 @RequestMapping("/booking")
@@ -43,6 +49,7 @@ public class BookingController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
+    //test passed
     @PostMapping("/create/{id}/{id2}")
     public String createBooking(@RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date timeOfBooking,
                                 @PathVariable("id") int id,
@@ -53,11 +60,16 @@ public class BookingController {
             System.out.println(e.getMessage());
             model.addAttribute("errorMessage", e.getMessage());
             return "/error-page";
+        } catch (InvalidDate e){
+            System.out.println(e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "/error-page";
         }
         model.addAttribute("successMessage", "room successfully booked!");
-        return "/success-page";
+        return "redirect:/logout";
     }
 
+    //test passed
     @GetMapping("/{id}")
     public String gerBookingPage(@PathVariable("id") int id, Model model, Booking booking) throws RoomNotFoundException {
         Room room = roomService.findRoom(id);
@@ -72,12 +84,13 @@ public class BookingController {
         return "/booking/page";
     }
 
+    //test passed
     @DeleteMapping("/delete/{id}")
     public String deleteBooking(@PathVariable("id") int id){
         bookingService.deleteBooking(id);
-        return "redirect:/room/all";
+        return "redirect:/logout";
     }
-
+    //test passed
     @GetMapping("/all/person/bookings")
     public String allPersonBookings( Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -96,10 +109,26 @@ public class BookingController {
         return "/booking/all";
     }
     @GetMapping("/{id}/updatePage")
-    public String updateBooking(@PathVariable("id") int id, Model model){
+    public String updateBookingPage(@PathVariable("id") int id, Model model){
         Booking booking = bookingService.getInfo(id);
         model.addAttribute("booking", booking);
         return "/booking/updatePage";
+    }
+    //test passed
+    @PostMapping("/{id}/update")
+    public String updateBooking(@PathVariable("id") int id, @ModelAttribute("booking") Booking updatedBooking, Model model){
+        try {
+            bookingService.updateBooking(id, updatedBooking);
+        } catch (RoomIsAlreadyTakenException e){
+            System.out.println(e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "/error-page";
+        } catch (InvalidDate e){
+            System.out.println(e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "/error-page";
+        }
+        return "redirect:/logout";
     }
 
 }

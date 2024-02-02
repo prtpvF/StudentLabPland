@@ -1,6 +1,7 @@
 package com.poland.student.StudentLab.Repo;
 
 import com.poland.student.StudentLab.Model.Booking;
+import com.poland.student.StudentLab.Model.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface BookingRepo extends JpaRepository<Booking, Integer> {
@@ -17,4 +19,6 @@ public interface BookingRepo extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT b FROM Booking b WHERE b.room.id = :room_id AND b.date = :date")
     Booking findByRoomAndDate(@Param("room_id") int roomId, @Param("date") Date date);
+
+    List<Booking> findAllByRoom(Room room);
 }

@@ -1,12 +1,48 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home - Your Booking App</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <script th:src="@{/js/index.js}"></script>
+    <style>
+        /* Add your existing styles here */
+
+        .news-item {
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="header :: header"></div>
+<div class="content">
+    <!-- Your existing content here -->
+
+    <h2>Latest News</h2>
+    <div id="news">
+        <!-- News items will be added here by JavaScript -->
+    </div>
+</div>
+
+<script>
+    // Sample news data
+    var newsData = [
+        { title: 'New Destination Added!', content: 'We have just added a new destination to our platform. Check it out!' },
+        { title: 'Special Discount!', content: 'Book now and get a 20% discount on selected accommodations.' },
+        { title: 'Travel Tips', content: 'Check out our latest blog post for tips on traveling safely.' }
+    ];
+
+    // Get the news container
+    var newsContainer = document.getElementById('news');
+
+    // Add each news item to the container
+    for (var i = 0; i < newsData.length; i++) {
+        var item = newsData[i];
+        var div = document.createElement('div');
+        div.className = 'news-item';
+        div.innerHTML = '<h3>' + item.title + '</h3><p>' + item.content + '</p>';
+        newsContainer.appendChild(div);
+    }
+</script>
 </body>
 </html>
